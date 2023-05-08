@@ -8,21 +8,21 @@ const { stdin: input, stdout: output} = require('process');
 
 const rl = readline.createInterface({ input, output });
 rl.question('Hi! Welcome to node! What your name?\n', (answer) => {
-    //запись текста в файл
-    writeStreamNewText.write(`${answer} \n`);
-  });
+//запись текста в файл
+  writeStreamNewText.write(`${answer} \n`);
+});
 
 rl.on('line', (answer) => {
-    if (answer.toString().trim() === 'exit'){
-        console.log('Have a nice day!!'); 
-        writeStreamNewText.write(' ');
-        rl.close();
-    } else {
-        writeStreamNewText.write(`${answer} \n`);
-    }
+  if (answer.toString().trim() === 'exit'){
+    console.log('Have a nice day!!'); 
+    writeStreamNewText.write(' ');
+    rl.close();
+  } else {
+    writeStreamNewText.write(`${answer} \n`);
+  }
 });
 //проверка cntlC
 rl.on('SIGINT', () => {
-    console.log('Have a nice day!!');
-    rl.close();
+  console.log('Have a nice day!!');
+  rl.close();
 });
