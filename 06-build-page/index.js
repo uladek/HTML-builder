@@ -23,34 +23,42 @@ fs.readdir(path.join(__dirname, 'styles'), {withFileTypes: true}, (err, files) =
 
 fs.createReadStream(path.join(__dirname, 'template.html'));
 const distHTML = fs.createWriteStream(path.join(__dirname, 'project-dist', 'index.html'));
-let newHTML = '';
+ 
 // const templateRead = fs.createReadStream(path.join(__dirname, 'template.html'));
 //   templateRead.pipe(distHTML);
 
 fs.readdir(path.join(__dirname, 'components'), {recursive: true}, (err, files) => {
   if (err) throw err; 
- 
-  fs.readFile(path.join(__dirname, 'template.html'), (err, chunk) => {
+  let newHTML = '';
+  console.log(files);
+
+
+  fs.readFile(path.join(__dirname, 'template.html'), (err, data) => {
     if (err) throw err; 
-    // console.log(chunk);
-    newHTML  = chunk.toString();
+    newHTML = data.toString();
+    // console.log(data.toString());
+  
   });
 
 // files.forEach((file) => {
-  for (let file =0 ; file < files.length; file++) {
-    //  console.log( files[file])
-    // let extnameFile = path.extname(file);
+
+ 
+for (let file = 0 ; file < files.length; file++) {
+
     let tagInFile = `{{${(files[file]).replace(path.extname(files[file]), '')}}}`;
+
     fs.readFile(path.join(__dirname, 'components', files[file]),  (err, chunk) => {
       if (err) throw err; 
       newHTML = newHTML.replace(tagInFile, chunk.toString());
-    //   console.log(file);
+      console.log(file);
+
       if (file === files.length -1) {
         distHTML.write(newHTML);
-      }
+      }  
     });
   }
 });
+
 
 
 fs.readdir(path.join(__dirname, 'assets'), {recursive: true}, (err, folders) => {
